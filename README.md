@@ -20,8 +20,8 @@ The `cli-nord-color` script showcases the Nord color palette, which is a popular
 To use this script, follow these steps:
 
 1. Clone the repository:
-   `git clone https://github.com/Kraftfabrik/cli-nord-color.git
-   cd cli-nord-color`
+   `git clone https://github.com/Kraftfabrik/cli-nord-color.git`
+   `cd cli-nord-color`
 
 2. Make the script executable:
    
