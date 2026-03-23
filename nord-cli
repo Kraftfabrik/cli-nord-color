@@ -2,26 +2,31 @@
 
 # nord-cli - Nord color palette CLI utility
 # Usage:
-#   ./nord-cli           -> prints full palette
-#   ./nord-cli <color>   -> prints hex value
+#   ./nord-cli           -> print the full palette
+#   ./nord-cli <color>   -> print the matching hex value
 
 set -euo pipefail
 
+# --- Nord color definitions ---
 declare -A COLORS=(
+  # Polar Night
   [black]="#2e3440"
-  [gray_dark]="#3b4252"
+  [dark_gray]="#3b4252"
   [gray]="#434c5e"
-  [gray_bright]="#4c566a"
+  [light_gray]="#4c566a"
 
-  [white_dark]="#d8dee9"
-  [white]="#e5e9f0"
-  [white_bright]="#eceff4"
+  # Snow Storm
+  [white]="#d8dee9"
+  [light_white]="#e5e9f0"
+  [bright_white]="#eceff4"
 
+  # Frost
   [cyan]="#8fbcbb"
-  [turquoise]="#88c0d0"
+  [light_blue]="#88c0d0"
   [blue]="#81a1c1"
   [dark_blue]="#5e81ac"
 
+  # Aurora
   [red]="#bf616a"
   [orange]="#d08770"
   [yellow]="#ebcb8b"
@@ -29,23 +34,33 @@ declare -A COLORS=(
   [purple]="#b48ead"
 )
 
+# --- Print a colored block with its hex value ---
 print_color_block() {
   local hex="$1"
   local r=$((16#${hex:1:2}))
   local g=$((16#${hex:3:2}))
   local b=$((16#${hex:5:2}))
+
   printf "\e[48;2;%d;%d;%dm      \e[0m %s\n" "$r" "$g" "$b" "$hex"
 }
 
+# --- Normalize user input ---
 normalize_key() {
   local input="$1"
+
   input=$(printf "%s" "$input" | tr '[:upper:]' '[:lower:]')
+
   case "$input" in
-    gruen|grün) printf "green\n" ;;
-    *) printf "%s\n" "$input" ;;
+    gruen|grün)
+      printf "green\n"
+      ;;
+    *)
+      printf "%s\n" "$input"
+      ;;
   esac
 }
 
+# --- Print the full Nord palette ---
 print_palette() {
   echo "Polar Night"
   print_color_block "#2e3440"
@@ -76,6 +91,7 @@ print_palette() {
   echo
 }
 
+# --- Main entry point ---
 main() {
   if [[ $# -eq 0 ]]; then
     print_palette
@@ -86,8 +102,7 @@ main() {
   key=$(normalize_key "$1")
 
   if [[ -n "${COLORS[$key]:-}" ]]; then
-    print_color_block "${COLORS[$key]}"
-
+    printf "%s\n" "${COLORS[$key]}"
   else
     printf "Error: unknown color '%s'\n" "$1" >&2
     exit 1
