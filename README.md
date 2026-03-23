@@ -1,4 +1,4 @@
-# CLI Nord Color
+# Nord-CLI
 
 A small Bash utility to display the Nord color palette in the terminal.
 
