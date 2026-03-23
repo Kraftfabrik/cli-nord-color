@@ -86,7 +86,8 @@ main() {
   key=$(normalize_key "$1")
 
   if [[ -n "${COLORS[$key]:-}" ]]; then
-    printf "%s\n" "${COLORS[$key]}"
+    print_color_block "${COLORS[$key]}"
+
   else
     printf "Error: unknown color '%s'\n" "$1" >&2
     exit 1
