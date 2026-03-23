@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+
+# nord-cli - Nord color palette CLI utility
+# Usage:
+#   ./nord-cli           -> prints full palette
+#   ./nord-cli <color>   -> prints hex value
+
+set -euo pipefail
+
+declare -A COLORS=(
+  [black]="#2e3440"
+  [gray_dark]="#3b4252"
+  [gray]="#434c5e"
+  [gray_bright]="#4c566a"
+
+  [white_dark]="#d8dee9"
+  [white]="#e5e9f0"
+  [white_bright]="#eceff4"
+
+  [cyan]="#8fbcbb"
+  [turquoise]="#88c0d0"
+  [blue]="#81a1c1"
+  [dark_blue]="#5e81ac"
+
+  [red]="#bf616a"
+  [orange]="#d08770"
+  [yellow]="#ebcb8b"
+  [green]="#a3be8c"
+  [purple]="#b48ead"
+)
+
+print_color_block() {
+  local hex="$1"
+  local r=$((16#${hex:1:2}))
+  local g=$((16#${hex:3:2}))
+  local b=$((16#${hex:5:2}))
+  printf "\e[48;2;%d;%d;%dm      \e[0m %s\n" "$r" "$g" "$b" "$hex"
+}
+
+normalize_key() {
+  local input="$1"
+  input=$(printf "%s" "$input" | tr '[:upper:]' '[:lower:]')
+  case "$input" in
+    gruen|grün) printf "green\n" ;;
+    *) printf "%s\n" "$input" ;;
+  esac
+}
+
+print_palette() {
+  echo "Polar Night"
+  print_color_block "#2e3440"
+  print_color_block "#3b4252"
+  print_color_block "#434c5e"
+  print_color_block "#4c566a"
+  echo
+
+  echo "Snow Storm"
+  print_color_block "#d8dee9"
+  print_color_block "#e5e9f0"
+  print_color_block "#eceff4"
+  echo
+
+  echo "Frost"
+  print_color_block "#8fbcbb"
+  print_color_block "#88c0d0"
+  print_color_block "#81a1c1"
+  print_color_block "#5e81ac"
+  echo
+
+  echo "Aurora"
+  print_color_block "#bf616a"
+  print_color_block "#d08770"
+  print_color_block "#ebcb8b"
+  print_color_block "#a3be8c"
+  print_color_block "#b48ead"
+  echo
+}
+
+main() {
+  if [[ $# -eq 0 ]]; then
+    print_palette
+    return 0
+  fi
+
+  local key
+  key=$(normalize_key "$1")
+
+  if [[ -n "${COLORS[$key]:-}" ]]; then
+    printf "%s\n" "${COLORS[$key]}"
+  else
+    printf "Error: unknown color '%s'\n" "$1" >&2
+    exit 1
+  fi
+}
+
+main "$@"
