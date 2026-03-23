@@ -1,13 +1,21 @@
 # CLI Nord Color
 
-A small Bash utility to display the Nord color palette in the terminal or return individual hex values by color name.
+A small Bash utility to display the Nord color palette in the terminal.
 
 ## Features
 
 - Print the full Nord palette
 - Show colored preview blocks in the terminal
 - Look up single colors by name
-- Supports aliases like `gruen` and `grün`
+
+## Usage
+nord-cli
+nord-cli green
+nord-cli orange
+nord-cli gray_dark
+nord-cli gray_bright
+nord-cli white
+nord-cli white_bright
 
 ## Requirements
 
@@ -17,7 +25,7 @@ A small Bash utility to display the Nord color palette in the terminal or return
 ## Installation
 
 ```bash
-git clone https://github.com/Kraftfabrik/cli-nord-color.git
-cd cli-nord-color
-chmod +x nord
+git clone https://github.com/Kraftfabrik/nord-cli.git
+cd nord-cli
+chmod +x nord-cli
 ```
